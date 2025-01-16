@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Customized Trips</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        li h3 {
+            font-size: 22px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        li p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            display: inline-block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        .no-customized-trips p {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .no-customized-trips a {
+            text-decoration: underline;
+            color: #4CAF50;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Your Customized Trips</h1>
+
+    {% if customized_trips %}
+        <ul>
+            {% for customization in customized_trips %}
+                <li>
+                    <h3>{{ customization.destination.name }}</h3>
+                    <p><strong>Location:</strong> {{ customization.destination.location }}</p>
+                    <p><strong>Selected Accommodations:</strong></p>
+                    <ul>
+                        {% for accommodation in customization.selected_accommodations.all %}
+                            <li>{{ accommodation.name }} - ${{ accommodation.price_per_night }}</li>
+                        {% endfor %}
+                    </ul>
+                    <p><strong>Selected Activities:</strong></p>
+                    <ul>
+                        {% for activity in customization.selected_activities.all %}
+                            <li>{{ activity.name }} - ${{ activity.price }} ({{ activity.duration }})</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{% url 'trip_detail' customization.destination.pk %}">View Trip Details</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="no-customized-trips">
+            <p>You have no customized trips yet. <a href="{% url 'destination_search' %}">Start exploring now!</a></p>
+        </div>
+    {% endif %}
+
+</body>
+</html>

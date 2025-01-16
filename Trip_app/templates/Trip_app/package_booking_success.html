@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #4CAF50;
+        }
+
+        p {
+            font-size: 18px;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .booking-details {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-details strong {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .back-home {
+            text-decoration: none;
+            font-size: 16px;
+            color: #333;
+            margin-top: 15px;
+            display: inline-block;
+            border: 2px solid #4CAF50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-home:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .form-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Booking Confirmed</h1>
+
+    <div class="booking-details">
+        <p>Thank you for booking the package <strong>{{ booking.trip.name }}</strong>!</p>
+        <p><strong>Total Price:</strong> ₹{{ booking.total_price }}</p>
+        <p><strong>Status:</strong> {{ booking.status }}</p>
+        <p><strong>Payment Status:</strong> {{ booking.payment_status }}</p>
+
+        {% if booking.payment_status == 'Not Paid' %}
+            <div class="form-container">
+                <form action="{% url 'payment_form' %}" method="get">
+                    <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                    <input type="hidden" name="amount" value="{{ booking.total_price }}">
+                    <button type="submit" class="btn">Pay Now</button>
+                </form>
+            </div>
+        {% else %}
+            <p>Payment already made.</p>
+        {% endif %}
+
+        <a href="{% url 'home' %}" class="back-home">Back to Home</a>
+    </div>
+
+</body>
+</html>

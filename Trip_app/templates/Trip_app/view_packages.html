@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Our Trip Packages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 30px;
+        }
+
+        .package-card {
+            background-color: #fff;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .package-card h2 {
+            color: #4CAF50;
+        }
+
+        .package-card p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .package-card a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .package-card a:hover {
+            background-color: #45a049;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #555;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Explore Our Trip Packages</h1>
+
+        {% for package in packages %}
+            <div class="package-card">
+                <h2>{{ package.name }}</h2>
+                <p>{{ package.description }}</p>
+                <p><strong>Price:</strong> ${{ package.price }}</p>
+                <a href="{% url 'package_detail' pk=package.pk %}">View Details</a>
+            </div>
+        {% endfor %}
+
+        <a href="{% url 'home' %}" class="back-link">Back to Home</a>
+    </div>
+
+</body>
+</html>

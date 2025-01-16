@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        li {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        li h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        li p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: #4CAF50;
+            margin-top: 20px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #45a049;
+    
+            
+        }
+        .back-link {
+            display: block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #555;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            background-color: #444;
+        }
+        
+        .no-bookings {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .no-bookings a {
+            text-decoration: underline;
+            color: #4CAF50;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <h1>My Bookings</h1>
+
+    {% if bookings %}
+        <ul>
+            {% for booking in bookings %}
+                <li>
+                    <h3>{{ booking.trip.name }}</h3>
+                    <p><strong>Location:</strong> {{ booking.trip.location }}</p>
+                    <p><strong>Date:</strong> {{ booking.created_at|date:"M d, Y" }}</p>
+                    <p><strong>Status:</strong> {{ booking.status }}</p>
+                    <p><strong>Total Price:</strong> ${{ booking.total_price }}</p>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="no-bookings">
+            <p>You have no bookings yet. <a href="{% url 'select_trip' %}">Book a trip now!</a></p>
+        </div>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="back-link">Back to Home</a>
+
+</body>
+</html>

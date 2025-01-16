@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ destination.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 30px;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        strong {
+            font-weight: bold;
+            color: #333;
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-top: 30px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 8px 0;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 24px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        .back-links {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-links a {
+            background-color: #555;
+            margin: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>{{ destination.name }}</h1>
+        <img src="{{ destination.image.url }}" alt="{{ destination.name }}" style="width: 100%; max-width: 600px;">
+        <p><strong>Location:</strong> {{ destination.location }}</p>
+        <p><strong>Description:</strong> {{ destination.description }}</p>
+        <p><strong>Price:</strong> ${{ destination.price }}</p>
+        <p><strong>Available From:</strong> {{ destination.available_from }}</p>
+        <p><strong>Available To:</strong> {{ destination.available_to }}</p>
+        <p><strong>Reviews:</strong> {{ destination.reviews }}</p>
+
+        <h2>Activities</h2>
+        <ul>
+            {% for activity in destination.activities.all %}
+                <li>{{ activity.name }} - {{ activity.description }} (${{ activity.price }})</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'add_activity' destination.id %}">Add Activity</a>
+
+        <h2>Itinerary</h2>
+        <ul>
+            {% for itinerary in destination.itineraries.all %}
+                <li>Day {{ itinerary.day }}: 
+                    {% for activity in itinerary.activities.all %}
+                        {{ activity.name }}
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'add_itinerary' destination.id %}">Create Itinerary</a><br>
+        <a href="{% url 'customize_trip' destination.pk %}">Customize This Trip</a><br>
+
+        <div class="back-links">
+            <a href="{% url 'destination_search' %}">Back to Search</a><br>
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+    </div>
+
+</body>
+</html>

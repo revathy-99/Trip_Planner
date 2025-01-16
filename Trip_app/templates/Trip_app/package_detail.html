@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ package.name }} - Package Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #4CAF50;
+        }
+
+        .package-details {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        h3 {
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .button-group a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .button-group a:hover {
+            background-color: #45a049;
+        }
+
+        .back-to-home {
+            background-color: #555;
+        }
+
+        .back-to-home:hover {
+            background-color: #444;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>{{ package.name }}</h1>
+
+    <div class="package-details">
+        <p><strong>Description:</strong> {{ package.description }}</p>
+        <p><strong>Price:</strong> ${{ package.price }}</p>
+        <p><strong>Start Date:</strong> {{ package.start_date }}</p>
+        <p><strong>End Date:</strong> {{ package.end_date }}</p>
+
+        <h3>Destinations Included:</h3>
+        <ul>
+            {% for destination in package.destinations.all %}
+                <li>{{ destination.name }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Accommodations:</h3>
+        <ul>
+            {% for accommodation in package.accommodations.all %}
+                <li>{{ accommodation.name }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Activities:</h3>
+        <ul>
+            {% for activity in package.activities.all %}
+                <li>{{ activity.name }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Meals Included:</strong> {% if package.meals_included %} Yes {% else %} No {% endif %}</p>
+
+        <div class="button-group">
+            <a href="{% url 'book_package' pk=package.pk %}">Book this Package</a>
+            <a href="{% url 'home' %}" class="back-to-home">Back to Home</a>
+        </div>
+    </div>
+
+</body>
+</html>

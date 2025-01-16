@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page | Trip Planner</title>
+    
+    <style>
+        /* General Reset */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 10%;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #4CAF50;
+        }
+
+        /* Main Section Styling */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 10%;
+            min-height: 70vh;
+        }
+
+        .sidebar {
+            width: 25%;
+            background-color: #fff;
+            padding: 20px;
+            margin-right: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul a:hover {
+            background-color: #45a049;
+        }
+
+        .main-content {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .messages li {
+            list-style: none;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .messages .success { background-color: #4CAF50; }
+        .messages .error { background-color: #f44336; }
+        .messages .info { background-color: #2196F3; }
+        .messages .warning { background-color: #ff9800; }
+
+        /* Footer Styling */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Trip Planner</h1>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'destination_search' %}">Destinations</a>
+        <a href="{% url 'view_packages' %}">Packages</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'my_bookings' %}">My Bookings</a>
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        {% endif %}
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul>
+                <a href="{% url 'destination_search' %}">Search Destinations</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'select_trip' %}">Book a Trip</a>
+                    <a href="{% url 'my_bookings' %}">My Bookings</a>
+                    <a href="{% url 'view_packages' %}">View Packages</a>
+                    <a href="{% url 'password_reset' %}">Change Password</a>
+                    <a href="{% url 'profile' %}">My Profile</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'signup' %}">Sign Up</a>
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </ul>
+        </aside>
+
+        <!-- Main Section -->
+        <section class="main-content">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <h2>Welcome to Trip Planner</h2>
+            <p>Plan your next adventure with us! Explore destinations, customize your trips, and create unforgettable memories.</p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Trip Planner. All rights reserved.</p>
+    </footer>
+</body>
+</html>

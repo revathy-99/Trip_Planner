@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Trip: {{ destination.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 50%;
+            margin: 30px auto;
+            text-align: left;
+        }
+
+        h3 {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+            display: block;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            display: inline-block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            border: 2px solid #4CAF50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Customize Trip: {{ destination.name }}</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Select Accommodations -->
+        <h3>Select Accommodations</h3>
+        {% for accommodation in form.selected_accommodations.field.queryset %}
+            <div>
+                <label>
+                    <input type="checkbox" name="selected_accommodations" value="{{ accommodation.id }}"
+                    {% if accommodation in form.initial.selected_accommodations %}checked{% endif %}>
+                    {{ accommodation.name }} - ${{ accommodation.price_per_night }} per night
+                </label>
+            </div>
+        {% endfor %}
+        
+        <!-- Select Activities -->
+        <h3>Select Activities</h3>
+        {% for activity in form.selected_activities.field.queryset %}
+            <div>
+                <label>
+                    <input type="checkbox" name="selected_activities" value="{{ activity.id }}"
+                    {% if activity in form.initial.selected_activities %}checked{% endif %}>
+                    {{ activity.name }} - ${{ activity.price }} ({{ activity.duration }})
+                </label>
+            </div>
+        {% endfor %}
+        
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <!-- Links -->
+    <div>
+        <a href="{% url 'trip_detail' destination.pk %}">Back to Trip Details</a>
+        <a href="{% url 'home' %}">Back to Home</a>
+    </div>
+
+</body>
+</html>
